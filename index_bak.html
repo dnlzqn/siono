@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>La màquina decisiva</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="apple-touch-icon" sizes="57x57" href="apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192" href="android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        html,
+        body {
+            margin: 0 auto;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: -webkit-linear-gradient(top, #edecec, #cecbc9);
+            background-image: linear-gradient(top, #edecec, #cecbc9);
+            position: fixed;
+            top: 0;
+        }
+
+        main {
+            background: rgba(25, 25, 25, 0.16);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+        }
+
+        .buttonHolder {}
+
+        .button {
+            z-index: 1;
+            background-image: -webkit-linear-gradient(top, #f4f1ee, #fff);
+            background-image: linear-gradient(top, #f4f1ee, #fff);
+            border-radius: 50%;
+            box-shadow: 0px 8px 10px 0px rgba(0, 0, 0, .3), inset 0px 4px 20px 1px white, inset 0px -3px 20px 1px rgba(204, 198, 197, .5);
+            float: left;
+            height: 200px;
+            position: relative;
+            width: 200px;
+            -webkit-transition: all .1s linear;
+            transition: all .1s linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button:after {
+            color: #e9e6e4;
+            content: "";
+            display: block;
+            font-size: 120px;
+            height: 150px;
+            text-decoration: none;
+            text-align: center;
+            text-shadow: 0px -1px 1px #bdb5b4, 1px 1px 1px white;
+            position: absolute;
+            width: 130px;
+        }
+
+        .cross:after {
+            content: "❔";
+            -webkit-touch-callout: none;
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome and Opera */
+        }
+
+        .button:hover {
+            background-image: -webkit-linear-gradient(top, #fff, #f4f1ee);
+            background-image: linear-gradient(top, #fff, #f4f1ee);
+            color: #0088cc;
+            cursor: pointer;
+        }
+
+        .cross:hover:after {
+            color: #eb2f2f;
+        }
+
+        .button:active {
+            background-image: -webkit-linear-gradient(top, #efedec, #f7f4f4);
+            background-image: linear-gradient(top, #efedec, #f7f4f4);
+            box-shadow: 0 3px 75px 0 rgba(0, 0, 0, .4), inset 0px -3px 20px 1px rgba(204, 198, 197, .5);
+        }
+
+        .button:active:after {
+            color: #dbd2d2;
+            text-shadow: 0px -1px 1px #bdb5b4, 0px 1px 1px white;
+        }
+
+        .yes,
+        .no {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            transition: all .1s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .yes {
+            background: rgba(0, 128, 0, 0.69);
+        }
+
+        .no {
+            background: rgba(255, 0, 0, 0.69);
+        }
+
+        .yes .palo1,
+        .yes .palo2 {
+            width: 100px;
+            height: 30px;
+            background: lightgrey;
+            border-radius: 20px;
+        }
+
+        .yes .palo1 {
+            transform: rotate(55deg);
+            position: relative;
+            top: 40px;
+            left: -10px;
+        }
+
+        .yes .palo2 {
+            position: relative;
+            width: 150px;
+            top: -10px;
+            left: 21px;
+            transform: rotate(-55deg);
+        }
+
+        .no .palo1,
+        .no .palo2 {
+            width: 150px;
+            height: 30px;
+            background: lightgrey;
+            border-radius: 20px;
+            transform: rotate(45deg);
+        }
+
+        .no .palo1 {
+            transform: rotate(-45deg);
+            position: relative;
+            top: 14px;
+            left: 0px;
+        }
+
+        .no .palo2 {
+            position: relative;
+            top: -14px;
+        }
+    </style>
+</head>
+
+<body>
+    <main>
+        <div class="yes"> <audio src="audio/si.mp3" type="audio/mp3" preload="auto" id="si"></audio>
+            <div class="simbolo">
+                <div class="palo1"></div>
+                <div class="palo2"></div>
+            </div>
+        </div>
+        <div class="no"> <audio src="audio/no.mp3" type="audio/mp3" preload="auto" id="no"></audio>
+            <div class="simbolo">
+                <div class="palo1"></div>
+                <div class="palo2"></div>
+            </div>
+        </div>
+        <div class="buttonHolder">
+            <div class="button cross"></div>
+        </div>
+    </main>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-animate-css-rotate-scale.js"></script>
+    <script>
+        $('.button').on('click', aleatoriedad);
+
+        function aleatoriedad() {
+            var myArray = ["yes", "no"];
+            var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
+            console.log(randomItem);
+            if (randomItem == "yes") {
+                var audio = $("#si")[0];
+                audio.play();
+                $('.yes').animate({
+                    opacity: '1',
+                    zIndex: '100',
+                    scale: '2'
+                }, 200, "swing", function() {
+                    $('.button').animate({
+                        opacity: '0'
+                    }, 10);
+                }).animate({
+                    zIndex: '100'
+                }, 900, "swing", function() {
+                    $('.button').animate({
+                        opacity: '1'
+                    }, 10);
+                }).animate({
+                    opacity: '0',
+                    zIndex: '1',
+                    scale: '1'
+                }, 200);
+            } else {
+                var audio = $("#no")[0];
+                audio.play();
+                $('.no').animate({
+                    opacity: '1',
+                    zIndex: '100',
+                    scale: '2'
+                }, 200, "swing", function() {
+                    $('.button').animate({
+                        opacity: '0'
+                    }, 10);
+                }).animate({
+                    zIndex: '100'
+                }, 900, "swing", function() {
+                    $('.button').animate({
+                        opacity: '1'
+                    }, 10);
+                }).animate({
+                    opacity: '0',
+                    zIndex: '1',
+                    scale: '1'
+                }, 200);
+            }
+        }
+    </script>
+</body>
+
+</html>

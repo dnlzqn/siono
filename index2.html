@@ -1,0 +1,314 @@
+
+
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>La màquina decisiva</title>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#5bbad5">
+    <meta name="msapplication-TileColor" content="#da532c">
+    <meta name="theme-color" content="#ffffff">
+    <style>
+        html,
+        body {
+            margin: 0 auto;
+            height: 100%;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: -webkit-linear-gradient(top, #edecec, #cecbc9);
+            background-image: linear-gradient(top, #edecec, #cecbc9);
+            position: fixed;
+            top: 0;
+        }
+
+        main {
+            background: rgba(25, 25, 25, 0.16);
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: fixed;
+            top: 0;
+        }
+
+        .buttonHolder {
+            cursor: pointer;
+        }
+
+        .button {
+            border: 2px solid #e4e4e4;
+            z-index: 1;
+            background-image: -webkit-linear-gradient(top, #f4f1ee, #fff);
+            background-image: linear-gradient(top, #f4f1ee, #fff);
+            border-radius: 50%;
+            box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .3), inset 0px 4px 20px 1px white, inset 0px -3px 20px 1px rgba(204, 198, 197, .5);
+            float: left;
+            height: 200px;
+            position: relative;
+            width: 200px;
+            -webkit-transition: all .1s linear;
+            transition: all .1s linear;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .button:after {
+            color: #e9e6e4;
+            content: "";
+            display: block;
+            height: 55%;
+        }
+
+        .cross:after {
+            content: "";
+            width: 29%;
+            background-image: url("questionmark.svg");
+            background-repeat: no-repeat;
+        }
+
+        .button:hover {
+            background-image: -webkit-linear-gradient(top, #fff, #f4f1ee);
+            background-image: linear-gradient(top, #fff, #f4f1ee);
+            color: #0088cc;
+        }
+
+        .cross:hover:after {
+            color: #eb2f2f;
+        }
+
+        .button:active {
+            border: 2px solid #e4e4e4;
+            background-image: -webkit-linear-gradient(top, #d4d4d4, #f7f4f4);
+            background-image: linear-gradient(top, #d4d4d4, #f7f4f4);
+            box-shadow: 0 3px 75px 0 rgba(0, 0, 0, .4), inset 0px -3px 20px 1px rgba(204, 198, 197, .5);
+        }
+
+        .button:active:after {
+            color: #dbd2d2;
+            text-shadow: 0px -1px 1px #bdb5b4, 0px 1px 1px white;
+        }
+
+        .yes,
+        .no {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0px;
+            transition: all .1s ease-out;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+        }
+
+        .yes {
+/*            background: rgba(0, 128, 0, 0.69);
+          right: -100vw;*/  
+            background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+
+        }
+
+        .no {
+/*            background: rgba(255, 0, 0, 0.69);
+           left: -100vw;*/ 
+                        background-size: cover;
+            background-repeat: no-repeat;
+            background-position: center center;
+        }
+
+        .yes .palo1,
+        .yes .palo2 {
+            width: 100px;
+            height: 30px;
+            background: rgb(0, 255, 0);
+            border-radius: 20px;
+        }
+
+        .yes .palo1 {
+            transform: rotate(55deg);
+            position: relative;
+            top: 40px;
+            left: -10px;
+        }
+
+        .yes .palo2 {
+            position: relative;
+            width: 150px;
+            top: -10px;
+            left: 21px;
+            transform: rotate(-55deg);
+        }
+
+        .no .palo1,
+        .no .palo2 {
+            width: 150px;
+            height: 30px;
+            background: rgba(255, 0, 0);
+            border-radius: 20px;
+            transform: rotate(45deg);
+        }
+
+        .no .palo1 {
+            transform: rotate(-45deg);
+            position: relative;
+            top: 14px;
+            left: 0px;
+        }
+
+        .no .palo2 {
+            position: relative;
+            top: -14px;
+        }
+
+        .noselect {
+          -webkit-touch-callout: none; /* iOS Safari */
+            -webkit-user-select: none; /* Safari */
+             -khtml-user-select: none; /* Konqueror HTML */
+               -moz-user-select: none; /* Old versions of Firefox */
+                -ms-user-select: none; /* Internet Explorer/Edge */
+                    user-select: none; /* Non-prefixed version, currently
+                                          supported by Chrome, Edge, Opera and Firefox */
+        }
+
+        /* cargador */
+
+.my-progress-bar {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.progress-percentage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 40px;
+  font-family: verdana;
+  font-weight: bold;
+  color: #0ff;
+}
+    </style>
+</head>
+<body class="noselect">
+
+<div class="my-progress-bar"></div>
+
+    <main>
+        <div class="yes"> <audio src="audio/si.mp3" type="audio/mp3" preload="auto" id="si"></audio>
+            <div class="simbolo">
+                <div class="palo1"></div>
+                <div class="palo2"></div>
+            </div>
+        </div>
+        <div class="no"> <audio src="audio/no.mp3" type="audio/mp3" preload="auto" id="no"></audio>
+            <div class="simbolo">
+                <div class="palo1"></div>
+                <div class="palo2"></div>
+            </div>
+        </div>
+        <div class="buttonHolder noselect">
+            <div class="button cross noselect"></div>
+        </div>
+    </main>
+    <script type="text/javascript" src="jquery.min.js"></script>
+    <script type="text/javascript" src="jquery-animate-css-rotate-scale.js"></script>
+    <script type="text/javascript" src="https://www.jqueryscript.net/demo/jQuery-Circular-Progress-Bar-With-Text-Counter/scripts/plugin.js"></script>
+    <script>
+        $.preloadImages = function() {
+          for (var i = 0; i < arguments.length; i++) {
+            $("<img />").attr("src", arguments[i]);
+          }
+        }
+
+        $.preloadImages("img/yes1.gif","img/yes2.gif","img/yes3.gif","img/yes4.gif","img/no1.gif","img/no2.gif","img/no3.gif","img/no4.gif");
+    </script>
+    <script>
+        $('.button').on('click', aleatoriedad);
+
+        function aleatoriedad() {
+            var myArray = ["yes","no"];
+            var yesArray = ["img/yes1.gif","img/yes2.gif","img/yes3.gif","img/yes4.gif"];
+            var notArray = ["img/no1.gif","img/no2.gif","img/no3.gif","img/no4.gif"];
+            var randomItem = myArray[Math.floor(Math.random() * myArray.length)];
+            var randomYes = yesArray[Math.floor(Math.random() * yesArray.length)];
+            var randomNot = notArray[Math.floor(Math.random() * notArray.length)];
+            if (randomItem == "yes") {
+                var audio = $("#si")[0];
+                audio.play();
+                $('.yes').css({"background-image":"url("+randomYes+")"});
+                $('.yes').animate({
+                    opacity: '1',
+                    zIndex: '100',
+                }, 0, "swing", function() {
+                    $('.button').animate({
+                        left: '-100vw'
+                    }, 250);
+                    $('.yes .simbolo').animate({scale:'2.5'});
+                }).animate({
+                    zIndex: '100'
+                }, 1800, "swing", function() {
+                    $('.button').animate({
+                        left: '0'
+                    }, 250);
+                }).animate({
+                    opacity: '0',
+                    zIndex: '1'
+                }, 250);
+                $('.yes .simbolo').animate({scale:'1'});
+            } else {
+                var audio = $("#no")[0];
+                audio.play();
+                $('.no').css({"background-image":"url("+randomNot+")"});
+                $('.no').animate({
+                    opacity: '1',
+                    zIndex: '100'
+                }, 0, "swing", function() {
+                    $('.button').animate({
+                        left: '100vw'
+                    }, 250);
+                    $('.no .simbolo').animate({scale:'2.5'});
+                }).animate({
+                    zIndex: '100'
+                }, 1800,"swing", function() {
+                    $('.button').animate({
+                        left: '0'
+                    }, 250);
+                }).animate({
+                    opacity: '0',
+                    zIndex: '1'
+                }, 250);
+                $('.no .simbolo').animate({scale:'1'});
+            }
+        }
+    </script>
+
+<script>
+$(document).ready(function () {
+  var progress_circle = $(".my-progress-bar").gmpc({
+    line_width: 12,
+    color: "#000",
+    starting_position: 50,
+    percent: 0,
+    percentage: true,
+  }).gmpc('animate', 100, 3000);
+});
+
+</script>
+</body>
+
+</html>
